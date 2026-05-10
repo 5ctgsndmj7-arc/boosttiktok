@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boost TikTok Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .service-card { transition: all 0.3s ease; }
+        .service-card:hover { transform: translateY(-8px); }
+        .modal { animation: modalPop 0.3s ease; }
+        @keyframes modalPop { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body class="bg-[#0a1f1f] text-white">
+
+    <!-- NAVBAR -->
+    <nav class="bg-black/95 backdrop-blur-lg sticky top-0 z-50 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <button onclick="toggleMenu()" class="text-3xl md:hidden"><i class="fa-solid fa-bars"></i></button>
+                <span class="text-4xl">🔥</span>
+                <h1 class="text-3xl font-bold">BOOST TIKTOK</h1>
+            </div>
+            <a href="#contact" class="bg-white text-black font-semibold px-8 py-3 rounded-2xl">Commander</a>
+        </div>
+    </nav>
+
+    <!-- SERVICES -->
+    <section class="py-12">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12">Choisis ton service</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="servicesGrid"></div>
+        </div>
+    </section>
+
+    <!-- MODAL (exactement comme zefame) -->
+    <div id="orderModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[100]">
+        <div class="modal bg-[#111827] rounded-3xl w-full max-w-lg mx-4 overflow-hidden">
+            <div class="p-6 border-b border-gray-700">
+                <div class="flex justify-between">
+                    <h2 id="modalServiceName" class="text-2xl font-bold"></h2>
+                    <button onclick="closeModal()" class="text-3xl leading-none">✕</button>
+                </div>
+            </div>
+
+            <!-- Description comme sur la photo -->
+            <div class="p-6 space-y-4 border-b border-gray-700" id="modalDescription"></div>
+
+            <!-- Lien -->
+            <div class="p-6">
+                <label class="block text-sm mb-2">Lien</label>
+                <input id="tiktokLink" type="text" placeholder="https://www.tiktok.com/..." 
+                       class="w-full bg-[#1f2937] border border-gray-600 rounded-2xl px-5 py-4 text-white">
+            </div>
+
+            <!-- Quantité -->
+            <div class="px-6 pb-6">
+                <label class="block text-sm mb-2">Quantité</label>
+                <input id="quantity" type="number" placeholder="1000" min="50" max="100000"
+                       class="w-full bg-[#1f2937] border border-gray-600 rounded-2xl px-5 py-4 text-white">
+                <p class="text-xs text-gray-500 mt-2">Min: 50 - Max: 100 000</p>
+            </div>
+
+            <!-- Bouton Commander -->
+            <div class="px-6 pb-8">
+                <button onclick="submitOrder()" 
+                        class="w-full bg-blue-600 hover:bg-blue-700 transition py-5 rounded-2xl text-xl font-semibold flex items-center justify-center gap-3">
+                    <span>Commander</span>
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTACT -->
+    <section id="contact" class="py-20 bg-black">
+        <div class="max-w-2xl mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold mb-8">Contacte-moi</h2>
+            <a href="https://www.tiktok.com/@biboyfati" target="_blank"
+               class="flex items-center justify-center gap-4 bg-black border-2 border-pink-500 hover:bg-pink-500 hover:text-black text-3xl font-bold py-8 rounded-3xl mb-6">
+                <i class="fa-brands fa-tiktok text-5xl"></i>
+                @biboyfati (MP)
+            </a>
+            <p class="text-sm opacity-60">ou envoie-moi un mail : mihimanabiboy@icloud.com</p>
+        </div>
+    </section>
+
+    <script>
+        // === Remplace ces 3 lignes par tes vraies clés EmailJS ===
+        emailjs.init("VG_h7aQ0oP4j2Jcmg"); // ← Ton User ID
+
+        const services = [
+            {id:"likes", name:"Likes TikTok", icon:"❤️", price:"220 XPF / 1000", desc:"Qualité : Bot<br>Vitesse : Rapide<br>Récupération : Non<br>Taux de perte : 0-10%"},
+            {id:"abonnes", name:"Abonnés TikTok", icon:"👥", price:"1 350 XPF / 1000", desc:"Qualité : Premium<br>Vitesse : Rapide<br>Récupération : Non<br>Taux de perte : 10-100% <span class='text-red-400'>(Risque élevé)</span>"},
+            {id:"vues", name:"Vues TikTok", icon:"👁️", price:"75 XPF / 1000", desc:"Qualité : Bonne<br>Vitesse : Rapide<br>Récupération : Oui<br>Taux de perte : 0%"},
+            {id:"favoris", name:"Favoris TikTok", icon:"⭐", price:"90 XPF / 1000", desc:"Qualité : Bonne<br>Vitesse : Rapide<br>Récupération : Oui<br>Taux de perte : 0%"},
+            {id:"partages", name:"Partages TikTok", icon:"🔁", price:"90 XPF / 1000", desc:"Qualité : Bonne<br>Vitesse : Rapide<br>Récupération : Oui<br>Taux de perte : 0%"},
+            {id:"commentaires", name:"Commentaires TikTok", icon:"💬", price:"650 XPF / 1000", desc:"Qualité : Bot<br>Vitesse : Rapide<br>Récupération : Non<br>Taux de perte : 10-100%"}
+        ];
+
+        function renderServices() {
+            const grid = document.getElementById('servicesGrid');
+            grid.innerHTML = services.map(s => `
+                <div onclick="openModal('${s.id}')" class="service-card cursor-pointer bg-[#112233] p-8 rounded-3xl border border-gray-700 hover:border-[#00f5d4]">
+                    <div class="text-7xl mb-6">${s.icon}</div>
+                    <h3 class="text-2xl font-bold">${s.name}</h3>
+                    <p class="text-[#00f5d4] mt-2">${s.price}</p>
+                </div>
+            `).join('');
+        }
+
+        let currentService = null;
+
+        function openModal(id) {
+            currentService = services.find(s => s.id === id);
+            document.getElementById('modalServiceName').textContent = currentService.name;
+            document.getElementById('modalDescription').innerHTML = `
+                <div class="space-y-4 text-sm">
+                    ${currentService.desc}
+                </div>
+            `;
+            document.getElementById('orderModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('orderModal').classList.add('hidden');
+        }
+
+        function toggleMenu() {
+            // menu mobile si besoin
+        }
+
+        async function submitOrder() {
+            const link = document.getElementById('tiktokLink').value;
+            const qty = document.getElementById('quantity').value;
+
+            if (!link || !qty) {
+                alert("Veuillez remplir le lien et la quantité");
+                return;
+            }
+
+            const btn = document.querySelector('button[onclick="submitOrder()"]');
+            btn.innerHTML = 'Envoi en cours...';
+
+            const params = {
+                service: currentService.name,
+                link: link,
+                quantity: qty,
+                price: currentService.price,
+                email: "mihimanabiboy@icloud.com"
+            };
+
+            try {
+                await emailjs.send("service_7ulguhy", "template_gxr46b6", params);
+                alert("✅ Commande envoyée avec succès !\nJe te réponds très vite sur TikTok @biboyfati");
+                closeModal();
+                document.getElementById('tiktokLink').value = '';
+                document.getElementById('quantity').value = '';
+            } catch(e) {
+                alert("❌ Erreur d'envoi. Contacte-moi directement sur @biboyfati");
+            }
+            btn.innerHTML = 'Commander <i class="fa-solid fa-paper-plane"></i>';
+        }
+
+        window.onload = renderServices;
+    </script>
+</body>
+</html>
